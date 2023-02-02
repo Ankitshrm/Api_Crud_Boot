@@ -33,8 +33,11 @@ public class MainController {
 	}
 	
 	@GetMapping(value=	"/books/{id}")
-	public Book getBookById(@PathVariable("id")int id) {
-		return this.bookServices.getBookById( id);
+	public ResponseEntity<Book> getBookById(@PathVariable("id")int id) {
+		Book book =bookServices.getBookById(id);
+		if(book==null)
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		return ResponseEntity.of(Optional.of(book));
 	}
 	
 	@PostMapping(value="/books")
